@@ -1,0 +1,988 @@
+\documentclass{exam}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{tcolorbox}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{centernot}
+\usepackage{cases}
+\usepackage{physics}
+\usepackage[shortlabels]{enumitem}
+
+\newcommand{\paren}[1]{\left(#1\right)}
+\newcommand{\curly}[1]{\left\{#1\right\}}
+
+\allowdisplaybreaks
+
+\makeatletter
+\long\def\paragraph{%
+  \@startsection{paragraph}{4}%
+  {\z@}{2ex \@plus 1ex \@minus .2ex}{-1em}%
+  {\normalfont\normalsize\bfseries}%
+}
+\makeatother
+
+\makeatletter
+\def\@xequals@fill{\arrowfill@\Relbar\Relbar\Relbar}
+\newcommand*\xequals[2][]{\DOTSB\ext@arrow0055\@xequals@fill{#1}{#2}}
+\makeatother
+
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\spn}{span}
+
+\newbox\mizukibox
+\setbox\mizukibox\hbox{
+\raisebox{-2.5pt}{\includegraphics[height=2.5ex]{mizuki.png}}}
+\def\mizuki{\copy\mizukibox}
+
+\newbox\skullbox
+\setbox\skullbox\hbox{
+\raisebox{-2.5pt}{\includegraphics[height=2.5ex]{skull.png}}}
+\def\bendingskull{\copy\skullbox}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\NewTColorBox{proposition}{m}{
+  standard jigsaw,
+  sharp corners,
+  boxrule=0.4pt,
+  coltitle=black,
+  colframe=black,
+  opacityback=0,
+  opacitybacktitle=0,
+  fonttitle=\normalfont\bfseries\upshape,
+  fontupper=\normalfont,
+  title={Proposition #1},
+  after title={.},
+  attach title to upper={\ },
+}
+
+\NewTColorBox{problem}{m}{
+  standard jigsaw,
+  sharp corners,
+  boxrule=0.4pt,
+  coltitle=black,
+  colframe=black,
+  opacityback=0,
+  opacitybacktitle=0,
+  fonttitle=\normalfont\bfseries\upshape,
+  fontupper=\normalfont,
+  title={Problem #1},
+  after title={.},
+  attach title to upper={\ },
+}
+
+\NewTColorBox{lemma}{m}{
+  standard jigsaw,
+  sharp corners,
+  boxrule=0.4pt,
+  coltitle=black,
+  colframe=black,
+  opacityback=0,
+  opacitybacktitle=0,
+  fonttitle=\normalfont\bfseries\upshape,
+  fontupper=\normalfont,
+  title={Lemma #1},
+  after title={.},
+  attach title to upper={\ },
+}
+
+\renewcommand\qedsymbol{$\mizuki$}
+
+\title{Linear Algebra Done Right Chapter 1 - Solutions}
+\author{FungusDesu}
+\date{October 12th 2024}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}{1A.1}
+    Show that $\alpha + \beta = \beta + \alpha$ for all $\alpha,\beta\in\mathbb C$.
+\end{problem}
+
+\begin{proof}
+    Suppose $\alpha = a + bi$ and $\beta = c + di$ for some $a,b,c,d\in\mathbb R$. Then \[
+        \alpha + \beta = (a + bi) + (c + di) = (a + c) + (b+d)i = (c + a) + (d + b)i = (c + di) + (a + bi) = \beta + \alpha. \qedhere
+    \]
+\end{proof}
+
+\begin{problem}{1A.2}
+    Show that $(\alpha + \beta) + \lambda = \alpha + (\beta + \lambda)$ for all $\alpha, \beta, \lambda\in\mathbb C$.
+\end{problem}
+
+\begin{proof}
+    Suppose $\alpha = a + bi$, $\beta = c + di$ and $\lambda = e + fi$ for some $a,b,c,d,e,f\in\mathbb R$. Then
+    \begin{align*}
+        (\alpha + \beta) + \lambda &= ((a + bi) + (c+di)) + (e + fi) = ((a + c) + (b + d)i) + (e + fi)\\
+        &= ((a + c) + e) + ((b + d) + f)i = (a + (c + e)) + (b + (d + f))i\\
+        &= (a + bi) + ((c + e) + (d + f)i) = (a + bi) + ((c + di) + (e + fi))\\
+        &= \alpha + (\beta + \lambda).\qedhere
+    \end{align*}
+\end{proof}
+
+\begin{problem}{1A.3}
+    Show that $(\alpha\beta)\lambda = \alpha(\beta\lambda)$ for all $\alpha,\beta,\lambda\in\mathbb C$.
+\end{problem}
+
+\begin{proof}
+    Suppose $\alpha = a + bi$, $\beta = c + di$ and $\lambda = e + fi$ for some $a,b,c,d,e,f\in\mathbb R$. Then
+    \begin{align*}
+        (\alpha\beta)\lambda &= ((a+bi)(c+di))(e+fi)\\ 
+        &= ((ac-bd) + (ad + bc)i)(e + fi)\\
+        &= ((ac-bd)e - (ad+bc)f) + ((ac-bd)f + (ad+bc)e)i\\
+        &=(ace - bde - adf - bcf) + (acf-bdf+ade+bce)i\\
+        &=(a(ce - df) - b(cf + de)) + (a(cf + de) + b(ce - df))i\\
+        &=(a+bi)((ce-df)+(cf+de)i)\\
+        &=(a+bi)((c+di)(e+fi))\\
+        &=\alpha(\beta\lambda).\qedhere
+    \end{align*}
+\end{proof}
+
+\begin{problem}{1A.4}
+    Show that $\lambda(\alpha + \beta) = \lambda\alpha + \lambda\beta$ for all $\alpha, \beta, \lambda\in\mathbb C$.
+\end{problem}
+
+\begin{proof}
+    Suppose $\alpha = a + bi$, $\beta = c+di$ and $\lambda = e + fi$ for some $a,b,c,d,e,f\in\mathbb R$. Then
+    \begin{align*}
+        \lambda(\alpha + \beta) &= (e+fi)((a + bi) + (c + di))\\
+        &=(e+fi)((a+c)+(b+d)i)\\
+        &=e(a+c)-f(b+d) + (e(b + d) + f(a + c))i\\
+        &=(ea + ec - fb - fd) + (e(b+d)i +  f(a + c)i)\\
+        &=(ea - fb + ec - fd) + ((eb + ed + fa + fc)i)\\
+        &= (ea - fb + ec - fd) + (eb + fa)i + (ed + fc)i\\
+        &= (ea - fb) + (eb + fa)i + (ec - fd) + (ed - fc)i\\
+        &= (e+fi)(a+bi)+(e+fi)(c+di)\\
+        &= \lambda\alpha + \lambda\beta. \qedhere
+    \end{align*}
+\end{proof}
+
+\begin{problem}{1A.5}
+    Show that for every $\alpha\in\mathbb C$, there exists a unique $\beta\in\mathbb C$ such that $\alpha + \beta = 0$.
+\end{problem}
+
+\begin{proof}
+    Suppose $\alpha = a + bi$, then $$-\alpha = (-1 + 0i)(a + bi) = (-a - 0) + (-b + 0)i = -a-bi.$$ Thus $$\alpha + (-\alpha) =  (a + bi) + (-a - bi) = (a - a) + (b - b)i = 0.$$ Thus $\beta = -\alpha$ is an additive inverse of $\alpha$. Suppose $\beta'$ is another complex number that also satisfies this property. Then
+    \begin{align*}
+        \alpha + \beta' = 0 \implies \alpha + \beta' + \beta = \beta \implies \alpha + \beta + \beta' = \beta \implies \beta' = \beta.
+    \end{align*}
+    Thus $\beta$ is unique.
+\end{proof}
+
+\begin{problem}{1A.6}
+    Show that for every $\alpha\in\mathbb C$ with $\alpha\neq0$, there exists a unique $\beta \in \mathbb C$ such that $\alpha\beta=1$.
+\end{problem}
+
+\begin{proof}
+    Suppose $\alpha = a + bi$. Observe that
+    \begin{align*}
+        \paren{\frac{a}{a^2+b^2}-\frac{bi}{a^2+b^2}}(a+bi) &= \paren{\frac{a^2}{a^2+b^2}+\frac{b^2}{a^2+b^2}} + \paren{\frac{ab}{a^2+b^2} - \frac{ab}{a^2 + b^2}}i\\
+        &=\frac{a^2+b^2}{a^2+b^2} + 0i\\
+        &= 1.
+    \end{align*}
+    Thus $\beta = a/(a^2+b^2) - bi/(a^2+b^2)$ is a multiplicative inverse of $\alpha$. Suppose $\beta'$ is another complex number that also satisfies this property. Then \[
+        \alpha\beta' = 1 \implies \alpha\beta'\beta=\beta \implies \alpha\beta\beta' = \beta \implies \beta'=\beta.
+    \]
+    Thus $\beta$ is unique.
+\end{proof}
+
+\begin{problem}{1A.7}
+    Show that $$\frac{-1+\sqrt3i}2$$ is a cube root of 1.
+\end{problem}
+
+\begin{proof}
+    Observe that
+    \begin{align*}
+        \paren{\frac{-1+\sqrt3i}2}^3&=\paren{-\frac12 + \frac{\sqrt3}2i}\paren{-\frac12 + \frac{\sqrt3}2i}\paren{-\frac12 + \frac{\sqrt3}2i}\\
+        &=\paren{\paren{\frac14-\frac34}+\paren{-\frac{\sqrt3}4-\frac{\sqrt3}4}i}\paren{-\frac12+\frac{\sqrt3}2i}\\
+        &=\paren{-\frac12-\frac{\sqrt3}2i}\paren{-\frac12+\frac{\sqrt3}2i}\\
+        &=\paren{\frac14+\frac34} + \paren{-\frac{\sqrt3}4 + \frac{\sqrt3}4}i\\
+        &=1. \qedhere
+    \end{align*}
+\end{proof}
+
+\begin{problem}{1A.8}
+    Find two distinct square roots of $i$.
+\end{problem}
+
+Let $z = a+bi$ for which $z^2 = i$. Then we have \[
+    i = z^2 = (a+bi)^2 = a^2-b^2 + 2abi.
+\]
+Thus we have $a^2-b^2 = 0$ and $2ab = 1$. This system of equations have two solutions, i.e. $(a, b) = (\sqrt2/2, \sqrt2/2)$ and $(a, b) = (-\sqrt2/2,-\sqrt2/2)$. Thus the two distinct square roots of $i$ is
+\begin{align*}
+    \begin{tabular}{ccc}
+        $z=\frac{\sqrt2}2 + \frac{\sqrt2}2i$ &and& $z=-\frac{\sqrt2}2 - \frac{\sqrt2}2i$.
+    \end{tabular}
+\end{align*}
+
+\begin{problem}{1A.9}
+    Find $x\in\mathbb R^4$ such that $$(4, -3, 1, 7)+2x=(5,9,-6,8).$$    
+\end{problem}
+
+Observe that
+\begin{align*}
+    (4, -3, 1, 7)+2x=(5,9,-6,8) \implies 2x = (1,12,-7,1) \implies x = \paren{\frac12,6,-\frac72,\frac12}.
+\end{align*}
+
+\begin{problem}{1A.10}
+    Explain why there does not exist $\lambda\in\mathbb C$ such that $$\lambda(2-3i,5+4i,-6+7i) = (12-5i,7+22i,-32-9i).$$
+\end{problem}
+
+Suppose to the contrary there exists $\lambda\in\mathbb C$ for which $\lambda(2-3i,5+4i,-6+7i) = (12-5i,7+22i,-32-9i)$. By definition of scalar multiplication, we have
+\begin{align*}
+    \lambda &= \frac{12-5i}{2-3i} = \frac{7+22i}{5+4i} = \frac{-32-9i}{-6+7i}\\
+    &= (12-5i)\paren{\frac2{13}+\frac3{13}i}=(7+22i)\paren{\frac5{41}-\frac4{41}i}=(-32-9i)\paren{-\frac{6}{85}-\frac7{85}i}\\
+    &=3+2i = 3+2i = 3-2i.
+\end{align*}
+Thus we have a contradiction, and no such $\lambda$ exists.
+
+\begin{problem}{1A.11}
+    Show that $(x+y)+z=x+(y+z)$ for all $x,y,z\in\mathbb F^n$.
+\end{problem}
+
+\begin{proof}
+    Suppose $x = (x_1,\dots,x_n)\in\mathbb F^n$, $y = (y_1,\dots,y_n)\in\mathbb F^n$ and $z=(z_1,\dots, z_n)\in\mathbb F^n$. Then
+    \begin{align*}
+        (x + y) + z &= ((x_1,\dots,x_n) + (y_1,\dots,y_n)) + (z_1,\dots,z_n)\\
+        &=(x_1+y_1,\dots,x_n+y_n) + (z_1,\dots,z_n)\\
+        &=((x_1+y_1)+z_1,\dots,((x_n+y_n)+z_n)\\
+        &=(x_1+(y_1+z_1),\dots,(x_n+(y_n+z_n))\\
+        &=(x_1,\dots,x_n) + (y_1+z_1,\dots,y_n+z_n)\\
+        &=(x_1,\dots,x_n)+((y_1,\dots,y_n) + (z_1,\dots,z_n))\\
+        &=x+(y+z).\qedhere
+    \end{align*}
+\end{proof}
+
+\begin{problem}{1A.12}
+    Show that $(ab)x = a(bx)$ for all $x\in\mathbb F^n$ and all $a,b\in\mathbb F$.
+\end{problem}
+
+\begin{proof}
+    Suppose $a,b\in\mathbb F$ and $x=(x_1,\dots,x_n)\in\mathbb F^n$. Then
+    \begin{align*}
+        (ab)x &= (ab)(x_1,\dots,x_n)=(abx_1,\dots,abx_n)=(a(bx_1),\dots,a(bx_n))\\
+        &=a(bx_1,\dots,bx_n)=a(b(x_1,\dots,x_n))=a(bx).\qedhere
+    \end{align*}
+\end{proof}
+
+\begin{problem}{1A.13}
+    Show that $1x = x$ for all $x\in\mathbb F^n$.
+\end{problem}
+
+\begin{proof}
+    Suppose $x = (x_1,\dots x_n)\in\mathbb F^n$. Then
+    \begin{align*}
+        1x =1(x_1,\dots, x_n) = (1x_1,\dots,1x_n)=(x_1,\dots,x_n) = x.
+    \end{align*}
+\end{proof}
+
+\begin{problem}{1A.14}
+    Show that $\lambda(x+y)=\lambda x+\lambda y$ for all $\lambda \in\mathbb F$ and all $x,y\in\mathbb F^n$.
+\end{problem}
+
+\begin{proof}
+    Suppose $\lambda\in\mathbb F$, $x=(x_1,\dots,x_n)\in\mathbb F^n$ and $y=(y_1,\dots,y_n)\in\mathbb F^n$. Then
+    \begin{align*}
+        \lambda(x+y) &= \lambda((x_1,\dots,x_n) + (y_1,\dots,y_n))\\
+        &=\lambda(x_1+y_1,\dots,x_n+y_n)\\
+        &=(\lambda(x_1 + y_1),\dots,\lambda(x_n + y_n))\\
+        &=(\lambda x_1 + \lambda y_1,\dots,\lambda x_n + \lambda y_n)\\
+        &=(\lambda x_1,\dots,\lambda x_n) + (\lambda y_1,\dots,\lambda y_n)\\
+        &=\lambda(x_1,\dots,x_n) + \lambda(y_1,\dots,y_n)\\
+        &=\lambda x +\lambda y.
+    \end{align*}
+\end{proof}
+
+\begin{problem}{1A.15}
+    Show that $(a+b)x = ax + bx$ for all $a,b\in\mathbb F$ and all $x\in\mathbb F^n$.
+\end{problem}
+
+\begin{proof}
+    Suppose $a, b\in\mathbb F$ and $x=(x_1,\dots,x_n)\in\mathbb F^n$. Then
+    \begin{align*}
+        (a+b)x &= (a+b)(x_1,\dots,x_n)\\
+        &= ((a+b)x_1,\dots,(a+b)x_n)\\
+        &= (ax_1 + bx_1,\dots,ax_n+bx_n)\\
+        &=(ax_1,\dots,ax_n) + (bx_1,\dots,bx_n)\\
+        &=a(x_1,\dots,x_n) + b(x_1,\dots,x_n)\\
+        &=ax + bx.
+    \end{align*}
+\end{proof}
+
+\begin{problem}{1B.1}
+    Prove that $-(-v)=v$ for every $v\in V$.
+\end{problem}
+
+\begin{proof}
+    For $v\in V$, we have \[
+    -(-v) = (-1)((-1)v) = ((-1)(-1))v = 1v = v. \qedhere
+    \]
+\end{proof}
+
+\begin{problem}{1B.2}
+    Suppose $a\in\mathbb F$, $v\in V$, and $av = 0$. Prove that $a=0$ or $v = 0$.
+\end{problem}
+
+\begin{proof}
+    Suppose $a\in\mathbb F$, $v\in V$ and $av = 0$. If $a=0$, then we are done. If $a\neq 0$, then there exists multiplicative inverse $b\in\mathbb F$ of $a$ for which $ab = 1$. Thus we have the following \[
+        v=1v=(ba)v=b(av)=b0=0. \qedhere
+    \]
+\end{proof}
+
+\begin{problem}{1B.3}
+    Suppose $v,w\in V$. Explain why there exists a unique $x\in V$ such that $v + 3x = w$.
+\end{problem}
+
+\begin{proof}
+    Observe that there exists $x\in V$ for which $v + 3x = w$ where $v,w\in V$, i.e. $x = (w-v)/3$: \[
+        v+3\paren{\frac13(w-v)} = v + \paren{3\cdot\frac13}(w-v) = v + 1(w-v) = v + (w+(-v)) = (v+(-v)) + w = 0 + w = w. 
+    \]
+    
+    Suppose there exists $x'\in V$ that also satisfies this property. Then \[
+    v + 3x' = w\implies v + 3x' + 3x = w + 3x \implies v + 3x + 3x' = w + 3x \implies w + 3x' = w + 3x.
+    \]
+    Adding the additive inverse of $w$ to both sides of the equation yields $3x' = 3x$. Then \[
+    x' = 1x' = \paren{\frac13\cdot3}x' = \frac13(3x') = \frac13(3x) = \paren{\frac13\cdot3}x = 1x = x. \qedhere
+    \]
+\end{proof}
+
+\begin{problem}{1B.4}
+    The empty set is not a vector space. The empty set fails to satisfy only one of the requirements listed in the definition of a vector space. Which one?
+\end{problem}
+The empty set fails to satisfy the additive identity, since it does not contain $0$.
+
+\begin{problem}{1B.5}
+    Show that in the definition of a vector space, the additive inverse condition can be replaced with the condition that $$0v = 0\text{ for all }v\in V.$$ Here the $0$ on the left side is the number $0$, and the $0$ on the right side is the additive identity of $V$.
+\end{problem}
+
+\begin{proof}
+    Suppose $0v = 0$ for all $v\in V$. Then \[
+        0 = 0v = (1 + (-1))v = 1v + (-1)v = v + (-1)v.
+    \]
+    Thus there exists an additive inverse of $v$, namely $(-1)v$.
+    
+    Conversely, suppose there exists an additive inverse for all vectors $v$ in $V$. Observe that \[
+        0v = (0 + 0)v = 0v + 0v.
+    \]
+    Let $w$ be the additive inverse of $0v$. Adding the additive inverse of $0v$ to both sides of the equation, we get \[
+        0v + w = 0v + 0v + w \implies 0 = 0v + 0 = 0v.\qedhere
+    \]
+\end{proof}
+
+\begin{problem}{1B.6}
+    Let $\infty$ and $-\infty$ denote two distinct objects, neither of which is in $\mathbb R$. Define an addition and scalar multiplication on $\mathbb R\cup\{\infty,-\infty\}$ as you could guess from the notation. Specifically the sum and product of two real numbers is as usual, and for $t\in\mathbb R$ define \[
+            t\infty=\begin{cases}-\infty & \text{if } t < 0,\\0 & \text{if }t = 0,\\\infty & \text{if } t > 0,\end{cases} \qquad t(-\infty)=\begin{cases}\infty & \text{if } t < 0,\\0 & \text{if }t = 0,\\-\infty & \text{if } t > 0,\end{cases}
+    \]
+    and
+    \begin{align*}
+        t + \infty &= \infty + t = \infty + \infty = \infty,\\
+        t + (-\infty) &= (-\infty) + t = (-\infty) + (-\infty) = -\infty,\\
+        \infty + (-\infty) &= (-\infty) + \infty = 0.
+    \end{align*}
+    With these operations of addition and scalar multiplication, is $\mathbb R\cup\{\infty,-\infty\}$ a vector space over $\mathbb R$? Explain.
+\end{problem}
+
+The set $\mathbb R\cup\{\infty, -\infty\}$ is not a vector space over $\mathbb R$. Suppose non-zero $t\in\mathbb R$; we can see that associativity does not hold:
+\begin{align*}
+    (t + \infty) + (-\infty) = \infty + (-\infty) = 0\\
+    t + (\infty + (-\infty)) = t + 0 = t.
+\end{align*}
+
+\begin{problem}{1B.7}
+    Suppose $S$ is a nonempty set. Let $V^S$ denote the set of functions from $S$ to $V$. Define a natural addition and scalar multiplication on $V^S$, and show that $V^S$ is a vector space with these definitions.
+\end{problem}
+
+Let $f, g$ be functions mapping from $S$ to $V$. Then addition on $V^S$ is defined as a function $f + g\in V^S$ that takes $x\in V$ as an input and returns $f(x) + g(x)$, thus $(f+g)(x) = f(x) + g(x)$ (this formula makes sense because $f(x),g(x)\in V$, and thus can be added).
+
+Let $\lambda\in\mathbb F$ and $f$ be a function mapping from $S$ to $V$. Then scalar multiplication on $V^S$ is defined as $(\lambda f)(x) = \lambda\cdot f(x)$.
+
+For the sake of convenience, denote $f, g, h$ be functions mapping from $S$ to $V$, and $\alpha,\beta\in\mathbb F$. Observe that with the operations we have defined, $V^S$ is indeed a vector space, as these properties hold:
+\paragraph{Commutativity.} $$(f + g)(x) = f(x) + g(x) = g(x) + f(x) = (g + f)(x).$$
+
+\paragraph{Associativity.} \begin{align*}
+    ((f + g) + h)(x) &= (f+g)(x) + h(x) = (f(x) + g(x)) + h(x)\\
+    &= f(x) + (g(x) + h(x)) = f(x) + (g+h)(x) = (f + (g+h))(x)
+\end{align*}
+and
+\begin{align*}
+    (\alpha\beta f)(x) = (\alpha\beta )f(x) = \alpha(\beta f(x)) = \alpha((\beta f)(x)) = (\alpha(\beta f))(x).
+\end{align*}
+
+\paragraph{Distributivity.} $$(\alpha(f+g))(x) = \alpha((f+g)(x)) =\alpha(f(x) + g(x)) = \alpha f(x) + \alpha g(x) = (\alpha f)(x) + (\alpha g)(x) = (\alpha f + \alpha g)(x)$$ and $$((\alpha+\beta)f)(x)=(\alpha + \beta)f(x) = \alpha f(x) + \beta f(x) = (\alpha f)(x) + (\beta f)(x) = (\alpha f+\beta f)(x).$$
+
+\paragraph{Multiplicative identity.} $$(1f)(x) = 1(f(x)) = f(x).$$
+
+\paragraph{Additive identity.} 
+\begin{center}
+    There exists $(0f)\in V^S$ for which $(f + 0f)(x) = ((1 + 0)f)(x) = (1f)(x) = f(x).$
+\end{center}
+
+\paragraph{Additive inverse.} 
+\begin{center}
+    There exists $((-1)f)\in V^S$ for which $(f + (-1)f)(x) = ((1 + (-1))f)(x) = (0f)(x) = 0(f(x)) = 0.$
+\end{center}
+
+\begin{problem}{1B.8}
+    Suppose $V$ is a real vector space.
+    \begin{itemize}
+        \item The \textit{complexification} of $V$, denoted by $V_{\mathbb C}$, equals $V\times V$. An element of $V_{\mathbb C}$ is an ordered pair $(u, v)$, where $u,v\in V$, but we write this as $u + iv$.
+        \item Addition on $V_{\mathbb C}$ is defined by $$(u_1 + i v_1) + (u_2 + iv_2) = (u_1 + u_2) + i(v_1 + v_2)$$ for all $u_1,v_1,u_2,v_2\in V$.
+        \item Complex scalar multiplication on $V_{\mathbb C}$ is defined by $$(a+bi)(u+iv) = (au - bv) + i(av + bu)$$ for all $a, b\in\mathbb R$ and all $u,v\in V$.
+    \end{itemize}
+    Prove that with the definitions of addition and scalar multiplication as above, $V_{\mathbb C}$ is a complex vector space.
+\end{problem}
+
+\begin{proof}
+    Observe that for $a, b, c, d, e, f\in V$ and $\alpha,\beta, \gamma, \delta \in\mathbb R$, these properties hold:
+    \paragraph{Commutativity.} $$(a + ib) + (c + id) = (a + c) + i(b + d) = (c + a) + i(d + b) = (c + id) + (a + ib).$$
+    \paragraph{Associativity.} 
+    \begin{align*}
+        ((a + ib) + (c + id)) + (e + if) &= ((a + c) + i(b + d)) + (e + if)\\
+        &= ((a + c) + e) + i((b + d) + f)\\
+        &= (a + (c + e)) + i(b + (d + f))\\ 
+        &= (a + ib) + ((c + e) + i(d + f))\\
+        &=(a + ib) + ((c + id) + (e + if))
+    \end{align*}
+    and
+    \begin{align*}
+        ((\alpha+\beta i)(\gamma+\delta i))(a+ib) &= ((\alpha\gamma-\beta\delta) + (\alpha\delta + \beta\gamma)i)(a+ib)\\
+        &=((\alpha\gamma-\beta\delta)a - (\alpha\delta + \beta\gamma)b) + i((\alpha\gamma-\beta\delta)a + (\alpha\delta + \beta\gamma)b)\\
+        &= ((\alpha\gamma)a - (\beta\delta)b - (\alpha\delta)a - (\beta\gamma)b) + i((\alpha\gamma)a-(\beta\delta)b + (\alpha\delta)a + (\beta\gamma)b)\\
+        &= (\alpha(\gamma a) - \alpha(\delta b) - \beta(\delta a) - \beta(\gamma b)) + i(\alpha(\gamma b) + \alpha(\delta a) + \beta(\gamma a) - \beta(\delta b))\\
+        &=(\alpha(\gamma a-\delta b) - \beta(\delta a+\gamma b)) + i(\alpha(\gamma b + \delta a) + \beta(\gamma a-\delta b))\\
+        &= (\alpha + \beta i)((\gamma a-\delta b) + i(\gamma b + \delta a))\\
+        &= (\alpha + \beta i)((\gamma+\delta i)(a+ib)).
+    \end{align*}
+
+    \paragraph{Distributivity.}
+    \begin{align*}
+        (\alpha + \beta i)((a + ib) + (c + id)) &= (\alpha + \beta i)((a + c) + i(b + d))\\
+        &= (\alpha(a + c) - \beta(b + d)) + i(\alpha(b+d) + \beta(a + c))\\
+        &=(\alpha a + \alpha c - \beta b - \beta d) + i(\alpha b + \alpha d + \beta a + \beta c)\\
+        &=(\alpha a -\beta b + \alpha c - \beta d) + i(\alpha b + \beta a + \alpha d + \beta c)\\
+        &= ((\alpha a - \beta b) + i(\alpha b + \beta a)) + ((\alpha c - \beta d) + i(\alpha d + \beta c))\\
+        &= (\alpha + \beta i)(a + ib) + (\alpha + \beta i)(c + id)
+    \end{align*}
+    and
+    \begin{align*}
+        ((\alpha + \beta i) + (\gamma + \delta i))(a + ib) &= ((\alpha + \gamma) + (\beta + \delta)i)(a + ib)\\
+        &= ((\alpha + \gamma)a - (\beta + \delta)b) + i((\alpha + \gamma)b + (\beta + \delta)a)\\
+        &= (\alpha a + \gamma a - \beta b - \delta b) + i(\alpha b + \gamma b + \beta a + \delta a)\\
+        &= (\alpha a - \beta b + \gamma a - \delta b) + i(\alpha b + \beta a + \gamma b + \delta a)\\
+        &= ((\alpha a - \beta b) + i(\alpha b + \beta a)) + ((\gamma a - \delta b) + i(\gamma b + \delta a))\\
+        &= (\alpha + \beta i)(a + ib) + (\gamma + \delta i)(a + ib).
+    \end{align*}
+
+    \paragraph{Multiplicative identity.} $$1(a + ib) = 1a + i(1b) = a + ib.$$
+    
+    \paragraph{Additive identity.}
+    \begin{center}
+        There exists $(0 + i0)\in V_{\mathbb C}$ for which $(a + ib) + (0 + i0) = (a + 0) + i(b + 0) = a + ib$.
+    \end{center}
+
+    \paragraph{Additive inverse.}
+    \begin{center}
+        There exists $(-a + (-b)i)\in V_{\mathbb C}$ for which $(a + ib) + (-a + i(-b)) = (a + (-a)) + i(b + (-b)) = 0 + i0 = 0.$
+    \end{center}
+
+    We remark that the operations used in proving these properties make sense, since $a, b, c, d, e, f\in V$ and $\alpha, \beta, \gamma, \delta \in \mathbb R$.
+\end{proof}
+
+\begin{problem}{1C.1}
+    For each of the following subsets of $\mathbb F^3$, determine whether it is a subspace of $\mathbb F^3$.
+    \begin{itemize}
+        \item[(a)] $\{(x_1,x_2,x_3)\in\mathbb F^3:x_1 + 2x_2 + 3x_3 = 0\}$
+        \item[(b)] $\{(x_1,x_2,x_3)\in\mathbb F^3:x_1 + 2x_2 + 3x_3 = 4\}$
+        \item[(c)] $\{(x_1,x_2,x_3)\in\mathbb F^3:x_1x_2x_3 = 0\}$
+        \item[(d)] $\{(x_1,x_2,x_3)\in\mathbb F^3:x_1 = 5x^3\}$
+    \end{itemize}
+\end{problem}
+
+\begin{proof}
+    Let $\text{snow} = \{(x_1,x_2,x_3)\in\mathbb F^3:x_1 + 2x_2 + 3x_3 = 0\}$. We can see that snow is a subspace of $\mathbb F^3$, as these properties hold:
+    \paragraph{Additive identity.} The element $0 = (0, 0, 0)$ belongs to $\text{snow}$, as shown by $0 + 2\cdot0 + 3\cdot0 = 0$.
+
+    \paragraph{Closure under addition.} Suppose $(x_1, x_2, x_3),(y_1, y_2, y_3)\in\text{snow}$. Then $x_1 + 2x_2 + 3x_3 = 0$ and $y_1 + 2y_2 + 3y_3 = 0$. Observe that \[
+        (x_1, x_2, x_3) + (y_1, y_2, y_3) = (x_1 + y_1, x_2 + y_2, x_3 + y_3).
+    \]
+    This is an element of $\text{snow}$, as shown by \[
+        (x_1 + y_1) + 2(x_2 + y_2) + 3(x_3 + y_3) = (x_1 + 2x_2 + 3x_3) + (y_1 + 2y_2 + 3y_3) = 0 + 0 =0.
+    \]
+
+    \paragraph{Closure under scalar multiplication.} Suppose $(x_1, x_2, x_3)\in\text{snow}$ and $\lambda\in\mathbb F$. Then $x_1 + 2x_2 + 3x_3 = 0$. Observe that \[
+        \lambda(x_1, x_2, x_3) = (\lambda x_1, \lambda x_2, \lambda x_3).
+    \]
+    This is an element of snow, as shown by \[
+        (\lambda x_1) + 2(\lambda x_2) + 3(\lambda x_3) = \lambda(x_1 + 2x_2 + 3x_3) = \lambda\cdot0 = 0.
+    \]
+
+    Let $\operatorname{slayyla} = \{(x_1,x_2,x_3)\in\mathbb F^3:x_1 + 2x_2 + 3x_3 = 4\}$. $\operatorname{slayyla}$ is not a subspace of $\mathbb F^3$, as it does not contain the additive identity. More specifically, the element $0 = (0, 0, 0)$ is not contained, as shown by $0 + 2\cdot0 + 3\cdot0 = 0 \neq 4$.
+
+    Let $\operatorname{mikkel} = \{(x_1, x_2, x_3)\in\mathbb F^3: x_1x_2x_3 = 0\}$. $\operatorname{mikkel}$ is not a subspace of $\mathbb F^3$, as it is not closed under addition. For $(-1, 0, 2),(0, 1, 0)\in\operatorname{mikkel}$, their sum is $(-1, 0, 2) + (0, 1, 0) = (-1, 1, 2)$, which is not an element in $\operatorname{mikkel}$ ($(-1)\cdot1\cdot2 = -2 \neq 0$).
+
+    Let $\operatorname{higher} = \{(x_1, x_2, x_3) \in \mathbb F^3: x_1 = 5x_3\}$. $\operatorname{higher}$ is a subspace of $\mathbb F^3$, as it satisfies these properties:
+    \paragraph{Additive identity.} The element $0 = (0, 0, 0)$ is in $\operatorname{higher}$, as shown by $0 = 5\cdot0$.
+
+    \paragraph{Closure under addition.} Suppose $(x_1, x_2, x_3),(y_1,y_2,y_3)\in\operatorname{higher}$. Then $x_1 = 5x_3$ and $y_1= 5y_3$. Observe that \[
+    (x_1, x_2, x_3) + (y_1, y_2, y_3) = (x_1 + y_1, x_2 + y_2, x_3 + y_3).
+    \]
+    This is an element of $\operatorname{higher}$, as shown by \[
+        x_1 + y_1 = 5x_3 + 5y_3 = 5(x_3 + y_3).
+    \]
+
+    \paragraph{Closure under scalar multiplication.} Suppose $\lambda\in\mathbb F$ and $(x_1, x_2, x_3) \in\operatorname{higher}$. Then $x_1 = 5x_3$. Observe that \[
+        \lambda(x_1, x_2, x_3) = (\lambda x_1, \lambda x_2, \lambda x_3).
+    \]
+    This is an element of $\operatorname{higher}$, as shown by \[
+        \lambda x_1 = \lambda(5x_3) = 5(\lambda x_3). \qedhere
+    \]
+\end{proof}
+
+\begin{problem}{1C.2a}
+    If $b\in\mathbb F$, then $$\{(x_1, x_2, x_3, x_4) \in \mathbb F^4: x_3 = 5x_4 + b\}$$ is a subspace of $\mathbb F^4$ if and only if $b = 0$.
+\end{problem}
+
+\begin{proof}
+    Denote by $\operatorname{steak}$ the set $\{(x_1, x_2, x_3, x_4) \in \mathbb F^4: x_3 = 5x_4 + b\}$. Suppose $\operatorname{steak}$ is a subspace of $\mathbb F^4$. Then $0 = (0, 0, 0, 0)$ is an element of $\operatorname{steak}$. Thus $0 = 5\cdot0 + b$ implies $b = 0$.
+
+    Conversely, suppose $b = 0$. Then $\operatorname{steak} = \{(x_1, x_2, x_3, x_4) \in \mathbb F^4: x_3 = 5x_4\}$ is a subspace of $\mathbb F^4$ as it satisfies the following properties:
+    \paragraph{Additive identity.} The element $0 = (0, 0, 0, 0)$ is an element of $\operatorname{steak}$, as shown by $0 = 5\cdot0$.
+
+    \paragraph{Closure under addition.} Suppose $(x_1, x_2, x_3, x_4),(y_1, y_2, y_3, y_4)\in\operatorname{steak}$. Then $x_3 = 5x_4$ and $y_3 = 5y_4$. Observe that \[
+        (x_1, x_2, x_3, x_4) + (y_1, y_2, y_3, y_4) = (x_1 + y_1, x_2 + y_2, x_3 + y_3, x_4 + y_4).
+    \]
+    This is an element of $\operatorname{steak}$, as shown by \[
+        x_3 + y_3 = 5x_4 + 5y_4 = 5(x_4 + y_4).
+    \]
+
+    \paragraph{Closure under scalar multiplication.} Suppose $\lambda\in\mathbb F$ and $(x_1, x_2, x_3, x_4)\in\operatorname{steak}$. Then $x_3 = 5x_4$. Observe that \[
+        \lambda(x_1, x_2, x_3, x_4) = (\lambda x_1, \lambda x_2, \lambda x_3, \lambda x_4).
+    \]
+    This is an element of $\operatorname{steak}$, as shown by \[
+        \lambda x^3 = \lambda(5x_4) = 5(\lambda x_4). \qedhere
+    \]
+\end{proof}
+
+\begin{problem}{1C.2b}
+    The set of continuous real-valued functions on the interval $[0, 1]$ is a subspace of $\mathbb R^{[0, 1]}$.
+\end{problem}
+
+\begin{proof}
+    Denote by $S$ the set $\{f: [0, 1]\to\mathbb R\mid f\text{ is continuous}\}$. Observe that $S$ is a subspace of $\mathbb R^{[0, 1]}$, as it satisfies these properties:
+    \paragraph{Additive identity.} Consider the function $0:[0, 1]\to\mathbb R$ defined by $0(x) = 0$. Choose $\varepsilon > 0$, then we can always choose $\delta = \varepsilon >  0$ for which $\abs{x-x_0} < \delta$ implies $\abs{0(x) - 0(x_0)} < \abs{0 - 0} < \varepsilon$. Thus $0$ is continuous and is an element of $S$. The function $0$ is also the additive identity because for any $f\in S$: \[
+        (f + 0)(x) = f(x) + 0(x) = f(x) + 0 = f(x).
+    \]
+
+    \paragraph{Closure under addition.} Suppose $f, g$ be elements in $S$. Then $f, g$ are continuous and both map from $[0, 1]$ to $\mathbb R$. Observe that for all $0\le c\le 1$, we have \[
+        \lim_{x\to c}f(x) = f(c),\quad\lim_{x\to c}g(x) = g(c).
+    \]
+    Thus we have \[
+        f(c) + g(c) = \lim_{x\to c}f(x) + \lim_{x\to c}g(x) = \lim_{x\to c}(f(x) + g(x)).
+    \]
+    Therefore $f(x) + g(x)$ is continuous for $0\le x\le 1$, and so $f + g$ is an element of $S$.
+
+    \paragraph{Closure under scalar multiplication.} Suppose $\lambda\in\mathbb R$ and $f:[0, 1]\to\mathbb R$ is an element of $S$. Then $f$ is continuous. Observe that for all $0\le c\le 1$, we have \[
+        \lim_{x\to c} f(x) = f(c).
+    \]
+    Thus we have \[
+        \lambda f(c) = \lambda\lim_{x\to c}f(x) = \lim_{x\to c}\lambda f(x).
+    \]
+    Thus $\lambda f(x)$ is continuous for $0\le x\le1$, and so $\lambda f$ is an element of $S$.
+\end{proof}
+
+\begin{problem}{1C.2c}
+    The set of differentiable real-valued functions on $\mathbb R$ is a subspace of $\mathbb R^{\mathbb R}$.
+\end{problem}
+
+\begin{proof}
+    Denote by $S$ the set $\{f:\mathbb R\to\mathbb R\mid f\text{ is differentiable}\}$. Observe that $S$ is a subspace of $\mathbb R^{\mathbb R}$, as it satisfies the following properties:
+    \paragraph{Additive identity.} Consider the function $0(x) = 0$ for all $x\in\mathbb R$. Observe the following limit \[
+        \lim_{h\to0}\frac{0(x+h) - 0(x)}{h} = \lim_{h\to0}\frac{0}h = 0.
+    \]
+    Thus $0$ is differentiable. This is also an element of $S$ because for every $f\in S$: \[
+        (0 + f)(x) = 0(x) + f(x) = 0 + f(x) = f(x).
+    \]
+
+    \paragraph{Closure under addition.} Suppose $f, g\in S$. Then $f, g$ both map from $\mathbb R$ to $\mathbb R$ and are differentiable. Observe that for all $a\in\mathbb R$, there exist \[
+        \lim_{h\to0}\frac{f(a + h) - f(a)}{h},\quad\lim_{h\to0}\frac{g(a + h) - g(a)}h
+    \]
+    and so their sum \begin{align*}
+        \lim_{h\to0}\frac{f(a + h) - f(a)}{h} + \lim_{h\to0}\frac{g(a + h) - g(a)}h &= \lim_{h\to0}\frac{f(a + h) - f(a) + g(a + h) - g(a)}{h}\\
+        &=\lim_{h\to0}\frac{(f + g)(a + h) - (f + g)(a)}h
+    \end{align*}
+    exists. Thus $f + g$ is differentiable and is an element of $S$.
+
+    \paragraph{Closure under scalar multiplication.} Suppose $f\in S$ and $\lambda\in\mathbb R$. Then $f$ maps from $\mathbb R$ to $\mathbb R$ and is differentiable. Observe that for all $a\in\mathbb R$, there exists \[
+        \lim_{h\to0}\frac{f(a + h) - f(a)}h
+    \]
+    and so \[
+        \lambda\lim_{h\to0}\frac{f(a+h)-f(a)}h = \lim_{h\to0}\frac{\lambda f(a + h) - \lambda f(a)}h = \lim_{h\to0}\frac{(\lambda f)(a + h) - (\lambda f)(a)}h.
+    \]
+    exists. Thus $\lambda f$ is differentiable and is an element of $S$.
+\end{proof}
+
+\begin{problem}{1C.2d}
+    The set of differentiable real-valued functions $f$ on the interval $(0, 3)$ such that $f'(2) = b$ is a subspace of $\mathbb R^{(0, 3)}$ if and only if $b = 0$.
+\end{problem}
+
+\begin{proof}
+    Denote by $S$ the set $\{f: (0, 3)\to\mathbb R\mid f\text{ is differentiable}, f'(2) = b\}$ for some real $b$. Suppose $S$ is a subspace of $\mathbb R^{(0, 3)}$. Then the element $0$ defined by $0(x) = 0$ for which $f + 0 = f$ for all $f\in S$ is itself an element of $S$. Thus $0$ is differentiable and so \[
+        f'(2) = \lim_{h\to0}\frac{0(2 + h) - 0(2)}h = \lim_{h\to0}\frac{0}h = 0.
+    \]
+    Thus $b = 0$.
+
+    Conversely, suppose $b = 0$. Then $S = \{f:(0, 3)\to\mathbb R\mid f\text{ is differentiable}, f'(2) = 0\}$. Observe that $S$ is a subspace as it satisfies these properties:
+    \paragraph{Additive identity.} Consider the function $0:(0, 3)\to\mathbb R$ defined by $0(x) = 0$. For $0 < x < 3$, observe the following limit: \[
+        \lim_{h\to0}\frac{0(x + h) - 0(x)}h = \lim_{h\to0}\frac0h = 0.
+    \]
+    Thus $0$ is differentiable, and consequently $0'(2) = 0$. This shows $0$ is an element of $S$, and is also the additive identity since for every $f\in S$: \[
+        (0 + f)(x) = 0(x) + f(x) = 0 + f(x) = 0.
+    \]
+
+    \paragraph{Closure under addition.} Suppose $f,g\in S$. Then there exist \[
+        \lim_{h\to 0}\frac{f(x + h) - f(x)}h, \quad\lim_{h\to0}\frac{g(x + h) - g(x)}h
+    \]
+    for all $x\in\mathbb R$. This shows that $f + g$ is differentiable because their sum also exists: 
+    \begin{align*}
+        \lim_{h\to0}\frac{f(x + h) - f(x)}h+\lim_{h\to0}\frac{g(x + h) - g(x)}h &= \lim_{h\to0}\frac{f(x + h) - f(x) + g(x + h) - g(x)}h\\
+        &=\lim_{h\to0}\frac{(f + g)(x + h) - (f + g)(x)}h.
+    \end{align*}
+    This is again an element of $S$, for if $x = 2$, then \[
+        \lim_{h\to0}\frac{(f + g)(2 + h) - (f + g)(2)}h = \lim_{h\to0}\frac{f(2 + h) - f(2)}h + \lim_{h\to0}\frac{g(2 + h) - g(2)}h = f'(2) + g'(2) = 0.
+    \]
+
+    \paragraph{Closure under scalar multiplication.} Suppose $f\in S$ and $\lambda\in\mathbb R$. Then there exists \[
+        \lim_{h\to0}\frac{f(x + h) - f(x)}h
+    \]
+    for all $x\in\mathbb R$. This shows that $\lambda f$ is differentiable because \[
+        \lambda\lim_{h\to0}\frac{f(x + h) - f(x)}h = \lim_{h\to0}\frac{\lambda f(x + h) - \lambda f(x)}h = \lim_{h\to0}\frac{(\lambda f)(x + h) - (\lambda f)(x)}h
+    \]
+    exists. This is again an element of $S$ because if $x = 2$, then \[
+        \lim_{h\to0}\frac{(\lambda f)(2 + h) - (\lambda f)(2)}h = \lambda\lim_{h\to0}\frac{f(2 + h) - f(2)}h = \lambda\cdot0 = 0.\qedhere
+    \]
+\end{proof}
+
+\begin{problem}{1C.2e}
+    The set of all sequences of complex numbers with limit $0$ is a subspace of $\mathbb C^{\infty}$.
+\end{problem}
+
+\begin{proof}
+    Denote by $S$ the set \[
+        \{(x_1, x_2,\dots)\in\mathbb C^{\infty}: \lim_{n\to\infty}\{x_n\} = 0\}.
+    \]
+    Observe that $S$ is a subspace of $C^{\infty}$ because it satisfies the following properties:
+    \paragraph{Additive identity.} Consider the sequence $\{0_n\} = \{0, 0,\dots\}$. Choose some $\varepsilon>0$, then there always exists $N > 0$ for which $n > N$ and $\abs{0_n - 0} = \abs{0 - 0} = 0 < \varepsilon$. Thus \[
+        \lim_{n\to\infty}\{0_n\} = 0.
+    \]
+    Thus $0$ is an element of $S$. Note that it is also the additive identity because for any $\{x_n\} = \{x_1, x_2,\dots\}\in S$: \[
+        \{x_n\} + \{0_n\} = \{x_1, x_2,\dots\} + \{0, 0,\dots\} = \{x_1 + 0, x_2 + 0,\dots\} = \{x_1, x_2,\dots\}.
+    \]
+
+    \paragraph{Closure under addition.} Suppose $\{x_n\} = \{x_1, x_2, \dots\}, \{y_n\} = \{y_1, y_2, \dots\}\in S$. Then we have \[
+        \lim_{n\to\infty}\{x_n\} = 0, \quad\lim_{n\to\infty}\{y_n\} = 0.
+    \]
+    The sum of $\{x_n\}, \{y_n\}$ is also an element of $S$ because \[
+        0 = \lim_{n\to\infty}\{x_n\} + \lim_{n\to\infty}\{y_n\} = \lim_{n\to\infty}(\{x_n\} + \{y_n\}) = \lim_{n\to\infty}(\{x_n + y_n\}).
+    \]
+
+    \paragraph{Closure under scalar multiplication.} Suppose $\{x_n\} = \{x_1, x_2, \dots\}$ and $\lambda\in\mathbb C$. Then we have \[
+        \lim_{n\to\infty}\{x_n\} = 0.
+    \]
+    The product of $\{x_n\}$ and $\lambda$ is also an element of $S$ because \[
+        0 = \lambda\lim_{n\to\infty}\{x_n\} = \lim_{n\to\infty}\{\lambda x_n\}.\qedhere
+    \]
+\end{proof}
+
+\begin{problem}{1C.3}
+    Show that the set of differentiable real-valued functions $f$ on the interval $(-4, 4)$ such that $f'(-1) = 3f(2)$ is a subspace of $\mathbb R^{(-4, 4)}$.
+\end{problem}
+
+\begin{proof}
+    Denote by $S$ the set $\{f:(-4, 4)\to\mathbb R\mid f\text{ is differentiable},f'(-1) = 3f(2)\}$. Observe that $S$ is a subspace of $\mathbb R^{(-4, 4)}$ as it satisfies these properties:
+    \paragraph{Additive identity.} Consider the function $0: (-4, 4)\to\mathbb R$ defined by $0(x) = 0$. For $-4 < x < 4$, observe the following limit: \[
+        \lim_{h\to0}\frac{0(x + h) - 0(x)}h = \lim_{h\to0}\frac0h = 0.
+    \]
+    Thus $0$ is differentiable, and consequently $f'(-1) = 0$. Note that $S$ is also the additive identity of $S$ because $0 = 3\cdot0$.
+
+    \paragraph{Closure under addition.} Suppose $f,g\in S$. Then $f, g$ is differentiable, $f'(-1) = 3f(2)$ and $g'(-1) = 3g(2)$. Note that $f + g$ is also differentiable because \[
+        \lim_{h\to0}\frac{f(x + h) - f(x)}h + \lim_{h\to0}\frac{g(x + h) - g(x)}h = \lim_{h\to0}\frac{(f + g)(x + h) - (f + g)(x)}h.
+    \]
+    Observe that \[
+        3f(2) = \lim_{h\to0}\frac{f(-1 + h) - f(-1)}h,\quad 3g(2) = \lim_{h\to0}\frac{g(-1 + h) - g(-1)}h.
+    \]
+    Thus $f + g$ is also an element of $S$, as shown by 
+    \begin{align*}
+        3(f+g)(2) = 3f(2) + 3g(2) &= \lim_{h\to0}\frac{f(-1 + h) - f(-1)}h + \lim_{h\to0}\frac{g(-1 + h) - g(-1)}h\\
+        &= \lim_{h\to0}\frac{(f + g)(-1 + h) - (f + g)(-1)}h\\
+        &=(f + g)'(-1).
+    \end{align*}
+
+    \paragraph{Closure under scalar multiplication.} Suppose $f\in S$ and $\lambda\in\mathbb R$. Then $f$ is differentiable and $3f(2) = f'(-1)$. Note that $\lambda f$ is also differentiable because \[
+        \lambda\lim_{h\to0}\frac{f(x+h)-f(x)}h = \lim_{h\to0}\frac{(\lambda f)(x + h) - (\lambda f)(x)}h.
+    \]
+    Observe that \[
+        3f(2) = \lim_{h\to0}\frac{f(-1 + h) - f(-1)}h
+    \]
+    Thus $\lambda f$ is also an element of $S$, as shown by \[
+        3(\lambda f)(2) = \lambda\cdot(3f(2)) = \lambda\lim_{h\to0}\frac{f(-1 + h) - f(-1)}h = \lim_{h\to0}\frac{(\lambda f)(-1 + h) - (\lambda f)(-1)}h.\qedhere
+    \]
+\end{proof}
+
+\begin{problem}{1C.4}
+    Suppose $b\in\mathbb R$. Show that the set of continuous real-valued functions $f$ on the interval $[0, 1]$ such that $\int_0^1f = b$ is a subspace of $\mathbb R^{[0, 1]}$ if and only if $b = 0$.
+\end{problem}
+
+\begin{proof}
+    Denote by $S$ the set \[
+        \curly{f: [0, 1]\to\mathbb R\mid f\text{ is continuous},\int_0^1 f = b}.
+    \]
+    Suppose that $S$ is a subspace of $\mathbb R^{[0, 1]}$. Then the addditive identity $0:[0, 1]\to\mathbb R$ defined by $0(x) = 0$ is an element of $S$. Thus $0$ is continuous and \[
+        \int_0^1 0 = 0.
+    \]
+    Thus $b = 0$.
+
+    Conversely, suppose $b = 0$. Then \[
+        S = \curly{f:[0, 1]\to\mathbb R\mid f\text{ is continuous},\int_0^1 f = 0}.
+    \]
+    Observe that $S$ is a subspacce of $\mathbb R^{[0, 1]}$, as it satisfies the following properties:
+    \paragraph{Additive identity.} Consider the function $0:[0, 1]\to\mathbb R$ defined by $0(x) = 0$. Note that $0$ is continuous $(1C.2b)$ and \[
+        \int_0^1 0 = 0.
+    \]
+    Thus $0$ is an element of $S$. It is also the additive identity of $S$ because for any $f\in S$, $0(x) + f(x) = f(x)$.
+
+    \paragraph{Closure under addition.} Suppose $f, g\in S$. Then $f, g$ are continuous and so is $f + g$ $(1C.2b)$. Observe that \[
+        \int_0^1 f = 0,\quad\int_0^1 g = 0.
+    \]
+    The function $f + g$ is again an element of $S$ because \[
+        0 = \int_0^1 f = 0 + \int_0^1 g = \int_0^1(f + g).
+    \]
+
+    \paragraph{Closure under scalar multiplication.} Suppose $f\in S$ and $\lambda\in\mathbb R$. Then $f$ is continuous and so is $\lambda f$ $(1C.2b)$. Observe that \[
+        \int_0^1 f = 0 \implies \int_0^1\lambda f = 0.
+    \]
+    Thus $\lambda f$ is an element of $S$.
+\end{proof}
+
+\begin{problem}{1C.5}
+    Is $\mathbb R^2$ a subspace of the complex vector space $\mathbb C^2$?
+\end{problem}
+
+No. $\mathbb R^2$ is not a subspace of the complex vector space $\mathbb C^2$ because it is not closed under scalar multiplication. In particular, $i\cdot(69, 420) = (69i, 420i)\notin\mathbb R^2$.
+
+\begin{problem}{1C.6a}
+    Is $\{(a, b, c)\in\mathbb R^3:a^3 = b^3\}$ a subspace of $\mathbb R^3$?
+\end{problem}
+
+\begin{proof}
+    First note that the function $f:\mathbb R\to\mathbb R$ defined by $f(x) = x^3$ is injective. Suppose $a, b\in\mathbb R$ and $f(a) = f(b)$. Then
+    \begin{align*}
+        a^3 = b^3&\implies(a-b)(a^2 + ab + b^2)=0\\
+        &\implies(a-b)\paren{\paren{\frac a 2 + b}^2 + \frac34a^2} = 0\\
+        &\implies a - b = 0\\
+        &\implies a = b.
+    \end{align*}
+    Denote by $S$ the set $\{(a, b, c)\in\mathbb R^3:a^3 = b^3\}$. Observe that $S$ is a subspace as it satisfies these properties:
+    \paragraph{Additive identity.} The element $0 = (0, 0, 0)$ belongs to $S$, as shown by $0^3 = 0^3 = 0$. It is also the additive identity because for all $x = (x_1, x_2, x_3)\in S$, we have $0 + x = (0, 0, 0) + (x_1, x_2, x_3) = (x_1, x_2, x_3)$.
+
+    \paragraph{Closure under addition.} Suppose $(x_1, x_2, x_3), (y_1, y_2, y_3)\in S$. Then $x_3^3 = x_1^3$ and $y_3^3 = y_1^3$, which implies $x_3 = x_1$ and $y_3 = y_1$. The sum of these two vectors is \[
+        (x_1, x_2, x_3) + (y_1, y_2, y_3) = (x_1 + y_1, x_2 + y_2, x_3 + y_3).
+    \]
+    This is also an element of $S$ because \[
+        (x_3 + y_3)^3 = (x_1 + y_1)^3.
+    \]
+
+    \paragraph{Closure under scalar multiplication.} Suppose $(x_1, x_2, x_3)\in S$ and $\lambda\in\mathbb R$; then their product is $\lambda(x_1, x_2, x_3) = (\lambda x_1, \lambda x_2, \lambda x_3)$. Since $(x_1, x_2, x_3)\in S$, we have $x_3^3 = x_1^3$, which implies $x_3 = x_1$. The product of $\lambda$ and $(x_1, x_2, x_3)$ is an element of $S$ because \[
+        (\lambda x_3)^3 = (\lambda x_1)^3. \qedhere
+    \]
+\end{proof}
+
+\begin{problem}{1C.6b}
+    Is $\{(a, b, c)\in\mathbb C^3: a^3 = b^3\}$ a subspace of $\mathbb C^3$?
+\end{problem}
+Denote by $S$ is the set $\{(a, b, c)\in\mathbb C^3: a^3 = b^3\}$. $S$ is not a subspace of $\mathbb C^3$, as it is not closed under addition. In particular, the elements $\paren{1, \frac{-1+\sqrt3i}2, 0}$ and $\paren{1, \frac{-1-\sqrt3i}2, 0}$ are in $S$, but their sum $(2, -1, 0)$ is not.
+
+\begin{problem}{1C.7}
+    Prove or give a counterexample: If $U$ is a nonempty subset of $\mathbb R^2$ such that $ U$ is closed under addition and under taking additive inverses (meaning $-u\in U$ whenever $u\in U$), then $U$ is a subspace of $\mathbb R^2$.
+\end{problem}
+
+\begin{proof}[Disproof]
+    This statement is false due to the following counterexample. Denote by $U$ the set $\{(2n, 2n)\in\mathbb R^2\mid n\in\mathbb Z\}$. Note that $U$ is closed under addition (suppose $(2a, 2a), (2b, 2b)\in U$ for some $a,b\in\mathbb Z$, then their sum $(2(a+b), 2(a + b))$ is also an element of $U$ because $a + b\in\mathbb Z$) and every element of $U$ has an additive inverse (suppose $(2a, 2a)\in U$, then $(-2a, -2a)$ is its additive inverse). However $U$ is not a subspace of $\mathbb R^2$, as it is not closed under scalar multiplication (consider the element $(2, 2)$; the product $0.1(2, 2)$ is not an element of $U$).
+\end{proof}
+
+\begin{problem}{1C.8}
+    Give an example of a nonempty subset $U$ of $\mathbb R^2$ such that $U$ is closed under scalar multiplication, but $U$ is not a subspace of $\mathbb R^2$.
+\end{problem}
+The set $U = \{(x, y)\in\mathbb R^2\mid xy = 0\}$ is closed under scalar multiplication; suppose $(x, y)\in U$ and $\lambda\in\mathbb R$. Then $xy = 0$. The product of $(x, y)$ and $\lambda$, i.e. $(\lambda x, \lambda y)$, is also an element of $U$, as shown by $\lambda x\lambda y = \lambda^2xy = 0$. The set $u$ however is not closed under addition; the elements $(69, 0)$ and $(0, 420)$ are in $S$, but their sum $(69, 420)$ is not.
+
+\begin{problem}{1C.9}
+    A function $f:\mathbb R\to\mathbb R$ is called \textit{periodic} if there exists a positive number $p$ such that $f(x)=f(x+p)$ for all $x\in\mathbb R$. Is the set of periodic functions from $\mathbb R$ to $\mathbb R$ a subspace of $\mathbb R^{\mathbb R}$? Explain.
+\end{problem}
+The set of periodic functions from $\mathbb R$ to $\mathbb R$ is not a subspace of $\mathbb R^{\mathbb R}$, as it is not closed under addition. Let $f: \mathbb R\to\mathbb R$ be defined by \[
+    f(x) = \begin{cases}
+        1 & \text{if }x\text{ is integer}\\
+        0 & \text{if }x\text{ is noninteger}
+    \end{cases}
+\]
+Then \[
+    f(\sqrt2x) = \begin{cases}
+        1 & \text{if }\sqrt2x\text{ is integer}\\
+        0 & \text{if }\sqrt2x\text{ is noninteger}\\
+    \end{cases}
+\]
+Note that $f(x)$ and $f(\sqrt2x)$ are periodic, specifically the former is $1$-periodic and the latter is $(1/\sqrt2)$-periodic. Their sum however is aperiodic. Suppose to the contrary that $f(x) + f(\sqrt2x)$ is $T$-periodic. Since $f(x)$ and $f(\sqrt2x)$ are $1$-periodic and $(1/\sqrt2)$-periodic respectively, we have $f(x) = f(x + 1j)$ and $f(\sqrt2x) = f(\sqrt2x + k/\sqrt2)$ for integer $j, k$. Then \[
+    T = 1j = \frac1{\sqrt2}k,
+\]
+hence a contradiction that $\sqrt2$ is irrational.
+
+\begin{problem}{1C.10}
+    Suppose $V_1$ and $V_2$ are subspaces of $V$. Prove that the intersection $V_1\cap V_2$ is a subspace of $V$.
+\end{problem}
+
+\begin{proof}
+    Observe that $V_1\cap V_2$ is a subspace of $V$ as it satisfies these properties:
+    \paragraph{Additive identity.} Since $V_1$ and $V_2$ are subspaces of $V$, they both have the additive identity 0, thus so is $V_1\cap V_2$.
+
+    \paragraph{Closure under addition.} Suppose $u, v\in V_1\cap V_2$. Then the elements $u$ and $v$ are also the elements of $V_1$ and $V_2$. Thus $u + v\in V_1$ and $u + v\in V_2$ and so $u + v\in V_1\cap V_2$.
+
+    \paragraph{Closure under scalar multiplication.} Suppose $v\in V_1\cap V_2$ and $\lambda\in\mathbb F$. Then the element $v$ is also the element of $V_1$ and $V_2$. Thus $\lambda v\in V_1$ and $\lambda v\in V_2$ and so $\lambda v\in V_1\cap V_2$.
+\end{proof}
+
+\begin{problem}{1C.11}
+    Prove that the intersection of every collection of subspaces of $V$ is a subspace of $V$.
+\end{problem}
+
+\begin{proof}
+    Denote by $V_S$ the set of all possible subspaces of $V$. Suppose $S\in\mathscr{P}(V_S)\setminus\{\varnothing\}$. Denote by $U$ the set \[
+        U = \bigcap_{s\in S}s.
+    \]
+    Then observe that $U$ is a subspace of $V$, as it satisfies the following properties:
+    \paragraph{Additive identity.} Since the element $0$ belongs to every element of $S$, $0$ must also belong to $U$.
+
+    \paragraph{Closure under addition.} Suppose $u, v\in U$. Then the elements $u, v$ also belong to every element of $S$. For each subspace $s$ of $V$ in $S$, we have $u + v\in s$, and so $u+v$ is also an element of $U$.
+
+    \paragraph{Closure under scalar multiplication.} Suppose $v\in U$ and $\lambda\in\mathbb F$. Then the element $v$ also belongs to every element of $S$. For each subspace $s$ of $V$ in $S$, we have $\lambda v \in s$, and so $\lambda v$ is also an element of $U$.
+\end{proof}
+
+\begin{problem}{1C.12}
+    Prove that the union of two subspaces of $V$ is a subspace of $V$ if and only if one of the subspaces is contained in the other.
+\end{problem}
+
+\begin{proof}
+    Denote by $S_1$ and $S_2$ the two subspaces of $V$. Suppose $S_1\nsubseteq S_2$ and $S_2\nsubseteq S_1$. Then there exists an element $u\in S_1$ for which $u\notin S_2$, and $v\in S_2$ for which $v\notin S_1$. Then $u, v\in S_1\cup S_2$. Since $u\in S_1$ and $v\notin S_1$, we have $u + v\notin S_1$ (suppose to the contrapositive that $u + v\in S_1$; then $v = (v + u) + (-u)$ is an element of $S_1$). By the same line of reasoning we can also show that $u + v\notin S_2$. Thus $u + v\notin S_1\cup S_2$, and so $S_1\cup S_2$ is not a subspace.
+
+    Conversely, suppose $S_1\subseteq S_2$ or $S_2\subseteq S_1$. Without loss of generality, suppose the former. Then $S_1\cup S_2 = S_1$ is a subspace of $V$.
+\end{proof}
+
+\begin{problem}{1C.14}
+    Suppose $$U=\{(x, -x, 2x)\in\mathbb F^3:x\in\mathbb F\}\quad\text{and}\quad W=\{(x, x, 2x)\in\mathbb F^3:x\in\mathbb F\}.$$ Describe $U+W$ using symbols, and also give a description of $U+W$ that uses no symbols.
+\end{problem}
+
+$U+W = \{(x, y, 2x)\in\mathbb F^3: x, y\in\mathbb F\}$. The subspace $U+W$ of $\mathbb F^3$ is a set of elements in $\mathbb F^3$ whose third coordinate is twice the first coordinate.
+
+\begin{problem}{1C.15}
+    Suppose $U$ is a subspace of $V$. What is $U + U$?
+\end{problem}
+
+$U + U = U$, as $U$ is the smallest subspace containing $U$ and $U$.
+
+\begin{problem}{1C.16}
+    Is the operation of addition on the subspace of $V$ commutative? In other words, if $U$ and $W$ are subspaces of $V$, is $U + W = W + U$?
+\end{problem}
+
+Yes. A proof follows.
+\begin{proof}
+    Denote by $U, W$ the two subspaces of $V$. Then \[
+        U + W = \{v_1 + v_2:v_1\in U, v_2\in W\} = \{v_2 + v_1:v_2\in W, v_1\in U\} = W + U.
+    \]
+    We note that this makes sense because addition between elements of vector space is commutative.
+\end{proof}
+
+\begin{problem}{1C.17}
+    Is the operation of addition on the subspaces of $V$ associative? In other words, if $V_1, V_2, V_3$ are subspaces of $V$, is \[
+        (V_1 + V_2) + V_3 = V_1 + (V_2 + V_3)?
+    \]
+\end{problem}
+
+Yes. A proof follows.
+\begin{proof}
+    Denote by $V_1, V_2, V_3$ the subspaces of $V$. Then
+    \begin{align*}
+        (V_1 + V_2) + V_3 &= \{(v_1 + v_2) + v_3: v_1\in V_1, v_2\in V_2, v_3\in V_3\}\\
+        &= \{v_1 + (v_2 + v_3): v_1\in V_1, v_2\in V_2, v_3\in V_3\}\\
+        &= V_1 + (V_2 + V_3).
+    \end{align*}
+    We note that this makes sense because addition of elements of vector space is associative.
+\end{proof}
+
+\begin{problem}{1C.18}
+    Does the operation of addition on the subspaces of $V$ have an additive identity? Which subspaces have additive inverses?
+\end{problem}
+
+The operation of addition on the subspaces of $V$ has an additive identity, namely the subspace $\{0\}$.
+
+The subspace of $V$ having additive inverses is precisely $\{0\}$. Suppose to the contrary that there exists another set $W$ for which $V + W = \{0\}$. Then by $1.40$, $V + W$ is the smallest set that contains $V$ and $W$. Thus it is a contradiction that $\{0\}$ contains a set bigger than itself.
+
+\begin{problem}{1C.19}
+    Prove or give a counterexample: If $V_1, V_2, U$ are subspaces of $V$ such that $$V_1 + U = V_2 + U,$$ then $V_1 = V_2$.
+\end{problem}
+
+This statement is false due to the following example. Let $V_1 = \{(x, 0)\in\mathbb F^2:x\in\mathbb F\}, V_2 = \{(x, y)\in\mathbb F^2:x, y\in\mathbb F\}, U = \{(0, x)\in\mathbb F^2:x\in\mathbb F\}$. Note that $V_1, V_2$ and $U$ are subspaces of $V$, and $V_1 + U = V_2 + U = \{(x, y)\in\mathbb F^2:x, y\in\mathbb F\}$, however $V_1\neq V_2$.
+
+\begin{problem}{1C.20}
+    Suppose $$U = \{(x, x, y, y)\in\mathbb F^4: x, y\in\mathbb F\}.$$ Find a subspace $W$ of $\mathbb F^4$ such that $\mathbb F^4 = U\oplus W$.
+\end{problem}
+
+$W = \{(x, 0, y, 0)\in\mathbb F^4: x, y\in\mathbb F\}$.
+
+\begin{problem}{1C.21}
+    Suppose $$U = \{(x, y, x + y, x - y, 2x)\in\mathbb F^5:x, y\in\mathbb F\}.$$ Find a subspace $W$ of $\mathbb F^5$ such that $\mathbb F^5 = U\oplus W$.
+\end{problem}
+
+$W = \{(0, 0, x, y, z)\in\mathbb F^5:x, y, z\in\mathbb F\}$.
+
+\begin{problem}{1C.22}
+    Suppose $$U = \{(x, y, x + y, x - y, 2x)\in\mathbb F^5:x, y\in\mathbb F\}.$$ Find three subspaces $W_1, W_2, W_3$ of $\mathbb F^5$, none of which equals $\{0\}$, such that $\mathbb F^5 = U \oplus W_1 \oplus W_2 \oplus W_3$.
+\end{problem}
+
+$W_1 = \{(0, 0, x, 0, 0)\in\mathbb F^5:x\in\mathbb F\}, W_2 = \{(0, 0, 0, x, 0)\in\mathbb F^5:x\in\mathbb F\}, W_3 = \{(0, 0, 0, 0, x)\in\mathbb F^5:x\in\mathbb F\}$.
+
+\begin{problem}{1C.23}
+    Prove or give a counterexample: If $V_1, V_2, U$ are subspaces of $V$ such that \[
+        V = V_1\oplus U\quad\text{and}\quad V= V_2\oplus U,
+    \]
+    Then $V_1 = V_2$.
+\end{problem}
+
+This statement is false due to the following counterexample. Let $V_1 = \{(x, 0)\in\mathbb F^2:x\in\mathbb F\}$, $V_2 = \{(x, x)\in\mathbb F^2: x\in\mathbb F\}$ and $U = \{(0, x)\in\mathbb F^2:x\in\mathbb F\}$. Note that $V_1, V_2$ and $F$ are subspaces of $\mathbb F^2$, and $V_1\oplus U = V_2\oplus U = \mathbb F^2$. However $V_1\neq V_2$.
+
+\begin{problem}{1C.24}
+    A function $f:\mathbb R\to\mathbb R$ is called \textit{even} if $$f(-x) = f(x)$$ for all $x\in\mathbb R$. A function $f:\mathbb R\to\mathbb R$ is called \textit{odd} if $$f(-x) = -f(x)$$ for all $x\in\mathbb R$. Let $V_e$ denote the set of real-valued even functions on $\mathbb R$ and let $V_o$ denote the set of real-valued odd functions on $\mathbb R$. Show that $\mathbb R^{\mathbb R} = V_e\oplus V_o$.
+\end{problem}
+
+\begin{proof}
+    We first show that any function $f$ can be decomposed into a unique sum of odd and even functions. Denote by $o$ and $e$ those functions respectively, we wish to find $o$ and $e$ in terms of $f$. We thus have that $f(x) = o(x) + e(x)$, and therefore $f(-x) = e(x) - o(x)$. Solving the linear system of equations yields \[
+        o(x) = \frac{f(x) - f(-x)}2,\quad e(x) = \frac{f(x) + f(-x)}2.
+    \]
+    We can verify that $o$ is odd and $e$ is even: 
+    \begin{align*}    
+        o(-x) &= \frac{f(-x) - f(x)}2 = -\frac{f(x) - f(-x)}2 = -o(x)\\
+        e(-x) &= \frac{f(-x) + f(x)}2 = \frac{f(x) + f(-x)}2 = e(x)
+    \end{align*}
+    and in fact precisely sum to $f$: \[
+        o(x) + e(x) = \frac{f(x) - f(-x)}2 + \frac{f(x) + f(-x)}2 = \frac{2f(x)}2 = f(x).
+    \]
+    Thus we have shown that $\mathbb R^{\mathbb R} = V_e\oplus V_o$.
+\end{proof}
+
+\end{document}
